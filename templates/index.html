@@ -2,7 +2,8 @@
 {% block body %}
     <div id="wall">
             <div id="login">
-                    <form name="login" action="/login" method="get">
+				<form name="login" action="/login" method="post">
+						{{notify}}
                         <table>
                                 <tr>
                                         <td>Email:</td>

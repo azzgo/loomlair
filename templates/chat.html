@@ -3,10 +3,9 @@
     <div id="wall">
             <div id="contorline">
                     <ul>
-                           {% if user %}
-                           <li>登录了</li>
-                           {% else %}
-                           <li>没登录</li>
+                           {% if logining %}
+						   <li>{{username}},欢迎来到chatroom</li>
+						   <li><a href="/loginout">logout</a></li>
                            {% endif %}
                     </ul>
             </div>
@@ -14,11 +13,18 @@
                     <div id="chatbox">
                         <div id="messagebox">
                             {% for item in mess %}
-                                {{item}}
+								<div id="mess">
+									<p>{{item['mess']}}</p>
+									<p>User:{{item['user']}} Email:{{item['email']}}</p>
+									<p>date:{{item['today']}}</p>
+								</div>
                             {% endfor %}
                         </div>
                         <div id="sendbox">
-                                
+							<form id="sendbox" action="/chat/add" method="post">
+								<input name="mess" type="text"/>
+								<input type="submit" value="发送"/>
+							</form> 	
                         </div>
                     </div>
                     <div id="menberbox">
@@ -26,4 +32,5 @@
             </div>
             <div id="footer">
             </div>                             
+	</div>
 {% endblock body %}

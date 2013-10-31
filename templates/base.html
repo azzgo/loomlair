@@ -3,7 +3,13 @@
 	<head>
 		{% block head %}
             <title> {{title}}</title>
-            <link rel=stylesheet type=text/css href="{{css}}"/>
+            {% if not intercss %}
+            <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"/>
+            {% else %}
+            <style>
+                    {{css}}
+            </style>
+            {% endif %}
             <meta charset="utf-8" />
         {% endblock head %}
 	</head>
