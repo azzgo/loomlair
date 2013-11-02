@@ -1,18 +1,8 @@
+# -*- coding: utf-8 -*- 
 #!/usr/bin/env python
 from flask import Flask, render_template, request, url_for, redirect, abort, session
 import MySQLdb as mysqldb
 import datetime
-def coldb(insertmes):
-	try:
-		conn=mysqldb.connect(host='localhost',user='root',passwd='90243719',db='chatrow',port=3306)
-		cur=conn.cursor()
-		cur.execute(insertmes)
-		conn.commit()
-		cur.close()
-		conn.close()
-		return
-	except mysqldb.Error,e:
-		return "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
 
 app = Flask(__name__)
@@ -40,7 +30,8 @@ def loginout():
 	return redirect(url_for('index'))
 
 @app.route("/chat/")
-def chat():
+@app.route("/chat/<war>")
+def chat(war=None):
 	if session['username'] and session['email']:
 		username = session['username']
 		email = session['email']
@@ -48,24 +39,30 @@ def chat():
 		conn=mysqldb.connect(host='localhost',user='root',passwd='90243719',db='chatrow',port=3306)
 		cur=conn.cursor()
 		cur.execute("select * from chats order by chat_id desc")
-		items = [dict(user=row[1], email=row[1], mess=row[2], today=row[3]) for row in cur.fetchmany(5)]
+		items = [dict(user=row[1], email=row[2], mess=row[3], today=row[4]) for row in cur.fetchmany(100)]
 		cur.close()
 		conn.close()
-		return render_template("chat.html",title="chat room",username=username,email=email,mess=items,logining=True)
+		if war==None:
+			return render_template("chat.html",title="chat room",username=username,email=email,mess=items,logining=True)
+		else:
+			return render_template("chat.html",title="chat room",username=username,email=email,mess=items,logining=True,warning=war)
 		#except:
 		#	abort(405)
 	else:
 		abort(403)
 @app.route("/chat/add",methods=['POST'])
 def chat_add():
+	if request.form['mess']=="" or request.form['mess']==None:
+		return redirect(url_for('chat',war="不允许提交空表"))
+	else:
 	#try:
-	values = [session['username'],session['email'],request.form['mess'],str(datetime.date.today())]
-	conn=mysqldb.connect(host='localhost',user='root',passwd='90243719',db='chatrow',port=3306)
-	cur=conn.cursor()
-	cur.execute("insert into chats(chat_user,chat_email,chat_mess,chat_time) values(%s,%s,%s,%s)",values)
-	conn.commit()
-	cur.close()
-	conn.close()
+		values = [session['username'],session['email'],request.form['mess'],str(datetime.date.today())]
+		conn=mysqldb.connect(host='localhost',user='root',passwd='90243719',db='chatrow',port=3306)
+		cur=conn.cursor()
+		cur.execute("insert into chats(chat_user,chat_email,chat_mess,chat_time) values(%s,%s,%s,%s)",values)
+		conn.commit()
+		cur.close()
+		conn.close()
 #	except:
 #		pass
 	return redirect(url_for('chat'))
