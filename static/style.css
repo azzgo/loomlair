@@ -1,0 +1,90 @@
+html {
+    height: 100%;
+    padding: 0;
+}
+body {
+    background-color: #000000;
+	background-image: url("bgimg.jpg");
+	background-size:cover;
+    color: #FFFFFF;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+/*index common style*/
+#logo{
+	height:20%
+}
+#wall {    
+    margin: auto 10px;
+    height: 100%;
+    border-radius: 10px;
+}
+h1 {
+    text-align: center;
+}
+#login {
+    font-family: Arial;
+}
+table{
+	margin:auto;
+}
+/*index common style ends*/
+/*chat style start*/
+#contorline>span {
+    text-align: right;
+}
+#box1{
+	height:500px;
+}
+#box1>#chatbox{
+	height:100%;
+}
+#box1>#chatbox>#messagebox{
+	background-color: #44A1B5;
+	height:80%;
+	overflow:auto;
+}
+#box1>#chatbox>#sendbox{
+
+	height:18%;
+	margin-top:10px;
+}
+#box1>#chatbox>#sendbox .text{
+	height:80px;
+	width:90%;
+	overflow:auto;
+	resize:none
+}
+#box1>#chatbox>#sendbox .submit{
+	display:block;
+	float:right;
+	height:80px;
+	width:8%;
+}
+#footer {
+	clear:both;
+	color:red;
+    text-align: center;
+    font-size: 10px;
+}
+
+.messa{
+	margin:2px 3px;
+	padding:2px;
+	background-color:#B15F2A;
+	box-shadow:1px 1px #FFF;
+}
+
+.p1{
+	font-size:18px;
+	margin-right:5px;
+	margin-left:5px;
+	color:wheat;
+}
+.p2{
+	font-size:14px;
+	margin-right:5px;
+	color:thistle;
+	text-align:right;
+}

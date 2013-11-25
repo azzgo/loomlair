@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block body %}
+<div id="wall">
+		<div id="logo">
+		</div>	
+		<h1>欢迎来到loom洽谈室</h1>			
+        <div id="login">
+			<form id="logtb" name="login" action="/login" method="post">
+				{{notify}}
+                	<table>
+                    	<tr class="1st">
+                        	<td>Email:</td>
+                        	<td><input type="text" name="Email" /></td>
+							<td rowspan="2" class="3rd">
+								<input  type="submit" value="登录" />
+							</td>
+                    	</tr>
+                        <tr class="2nd">
+                        	<td>nickname:</td>
+                            <td><input type="text" name="nickname"/></td>
+                         </tr>
+                        </table>
+        	</form>
+    	</div>	
+    </div>
+{% endblock body %}

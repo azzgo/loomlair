@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block head %}
+	{{super()}}
+{% endblock head %}
+{% block body %}
+	<div id="wall">
+			<p style="text-align:center;color:red">{{warning}}</p>
+            <div id="contorline">
+                    {% if logining %}
+					 <h1>{{username}},欢迎来到chatroom</h1>
+					<span><p><a href="/loginout">logout</a></p></span>
+					{% endif %}                    
+            </div>
+            <div id="box1">
+                    <div id="chatbox">
+                        <div id="messagebox">
+                            {% for item in mess %}
+								<div class="messa">
+									<p class="p1">{{item['mess']}}</p>
+									<p class="p2">{{item['user']}} at {{item['email']}} date:{{item['today']}}</p>
+								</div>
+                            {% endfor %}
+                        </div>
+                        <div id="sendbox">
+							<form id="sendbox" action="/chat/add" method="post">
+								<textarea class="text" name="mess" wrap="physical"></textarea>
+								<input class="submit" type="submit" value="发送"/>
+							</form> 	
+                        </div>
+                    </div>
+                    <div id="menberbox">
+                    </div>
+            </div>                       
+	</div>
+{% endblock body %}
