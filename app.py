@@ -9,11 +9,14 @@ app = Flask(__name__)
 '''
 这是一个匿名聊天的应用，闲心之作，应用了flask框架mysqldb等库写成
 '''
-
+host = "localhost"
+user = "root"
+passwd = ""
+db="chatrow"
 
 @app.before_request			#在每次连接建立前，建立好与数据库的连接，并将连接保存到g.db上
 def before_request():
-    g.db = mysqldb.connect(host='localhost',user='root',passwd='90243719',db='chatrow',port=3306,charset="utf8")
+    g.db = mysqldb.connect(host=host,user=user,passwd=passwd,db=db,port=3306,charset="utf8")
 
 @app.teardown_request		#如果连接g.db建立了，在连接断开时关闭数据库的连接
 def teardown_request(exception):
@@ -76,5 +79,4 @@ def chat_add():																								#添加数据
 app.secret_key = '\xb2\xc7\xe0\xa0\xe1c\x1a\xd1\x93D\xe7X\xde\x02\xd4\xbb+O\xbe+\x95.\xf7\xdd'
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=80, debug=True)
-
+    app.run(host="0.0.0.0",port=8880, debug=True)
