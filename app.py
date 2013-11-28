@@ -11,7 +11,7 @@ app = Flask(__name__)
 '''
 host = "localhost"
 user = "root"
-passwd = ""
+passwd = "90243719"
 db="chatrow"
 
 @app.before_request			#在每次连接建立前，建立好与数据库的连接，并将连接保存到g.db上
@@ -48,7 +48,7 @@ def loginout():
 
 @app.route("/chat/")							#聊天室界面
 @app.route("/chat/<war>")
-def chat(war=None):
+def chat():
 	if session['username'] and session['email']:
 		username = session['username']
 		email = session['email']
@@ -56,10 +56,7 @@ def chat(war=None):
 		cur=g.db.cursor()
 		cur.execute("select * from chats order by chat_id desc")				#从数据库中取出数据并显示到模板中
 		items = [dict(user=row[1], email=row[2], mess=row[3], today=str(row[4])+" "+str(row[5])) for row in cur.fetchmany(100)]
-		if war==None:
-			return render_template("chat.html",title="chat room",username=username,email=email,mess=items,logining=True)
-		else:
-			return render_template("chat.html",title="chat room",username=username,email=email,mess=items,logining=True,warning=war)
+		return render_template("chat.html",title="chat room",username=username,email=email,mess=items,logining=True)
 	else:
 		abort(403)
 @app.route("/chat/add",methods=['POST'])
@@ -79,4 +76,4 @@ def chat_add():																								#添加数据
 app.secret_key = '\xb2\xc7\xe0\xa0\xe1c\x1a\xd1\x93D\xe7X\xde\x02\xd4\xbb+O\xbe+\x95.\xf7\xdd'
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=8880, debug=True)
+    app.run(host="0.0.0.0",port=80, debug=True)

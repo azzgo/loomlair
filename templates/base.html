@@ -10,7 +10,7 @@
             <script src="//code.jquery.com/jquery-1.10.2.min.js" ></script>
         {% endblock head %}
         {% block script %}
-            <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+            <script src="{{ url_for('static', filename='jquery.js') }}"></script>
         {% endblock script %}
 	</head>
     <body>
