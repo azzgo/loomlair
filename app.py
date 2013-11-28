@@ -3,20 +3,17 @@
 from flask import Flask, render_template, request, url_for, redirect, abort, session, g
 import MySQLdb as mysqldb
 import datetime
-
+import config
 
 app = Flask(__name__)
 '''
 这是一个匿名聊天的应用，闲心之作，应用了flask框架mysqldb等库写成
 '''
-host = "localhost"
-user = "root"
-passwd = "90243719"
-db="chatrow"
+
 
 @app.before_request			#在每次连接建立前，建立好与数据库的连接，并将连接保存到g.db上
 def before_request():
-    g.db = mysqldb.connect(host=host,user=user,passwd=passwd,db=db,port=3306,charset="utf8")
+    g.db = mysqldb.connect(host=config.HOST,user=config.USER,passwd=config.PASSWD,db=config.DB,port=coding.PORT,charset="utf8")
 
 @app.teardown_request		#如果连接g.db建立了，在连接断开时关闭数据库的连接
 def teardown_request(exception):
