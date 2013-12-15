@@ -10,20 +10,29 @@ app = Flask(__name__)
 这是一个匿名聊天的应用，闲心之作，应用了flask框架mysqldb等库写成
 '''
 
-
-@app.before_request			#在每次连接建立前，建立好与数据库的连接，并将连接保存到g.db上
+#在每次连接建立前，建立好与数据库的连接，并将连接保存到g.db上
+@app.before_request			
 def before_request():
-    g.db = mysqldb.connect(host=config.HOST,user=config.USER,passwd=config.PASSWD,db=config.DB,port=coding.PORT,charset="utf8")
+    g.db = mysqldb.connect(host=config.HOST,user=config.USER,passwd=config.PASSWD,db=config.DB,port=config.PORT,charset="utf8")
 
-@app.teardown_request		#如果连接g.db建立了，在连接断开时关闭数据库的连接
+#如果连接g.db建立了，在连接断开时关闭数据库的连接
+@app.teardown_request		
 def teardown_request(exception):
     if hasattr(g, 'db'):
 		g.db.close()
 
+#Errors 处理
 @app.errorhandler(403)
 def untouch(error):			#一个403非法登录的页面
-	return """<p style="text-align:center">sorry,you must fill some information first</p>"""
+	return render_template("403.html"),403
 
+@app.errorhandler(404)
+def not_findpage(error):			#一个404非法登录的页面,指向腾讯公益404页面
+	return render_template("404.html"),404
+
+
+
+#url 页面处理
 @app.route("/")				#主页面
 @app.route("/index/")
 def index():
@@ -46,16 +55,18 @@ def loginout():
 @app.route("/chat/")							#聊天室界面
 @app.route("/chat/<war>")
 def chat():
-	if session['username'] and session['email']:
-		username = session['username']
-		email = session['email']
-		#try:
-		cur=g.db.cursor()
-		cur.execute("select * from chats order by chat_id desc")				#从数据库中取出数据并显示到模板中
-		items = [dict(user=row[1], email=row[2], mess=row[3], today=str(row[4])+" "+str(row[5])) for row in cur.fetchmany(100)]
-		return render_template("chat.html",title="chat room",username=username,email=email,mess=items,logining=True)
-	else:
-		abort(403)
+    try:    
+	    if session['username'] and session['email']:
+		    username = session['username']
+		    email = session['email']
+
+		    cur=g.db.cursor()
+		    cur.execute("select * from chats order by chat_id desc")				#从数据库中取出数据并显示到模板中
+		    items = [dict(user=row[1], email=row[2], mess=row[3], today=str(row[4])+" "+str(row[5])) for row in cur.fetchmany(100)]
+		    return render_template("chat.html",title="chat room",username=username,email=email,mess=items,logining=True)
+    except KeyError:
+		    abort(403)
+
 @app.route("/chat/add",methods=['POST'])
 def chat_add():																								#添加数据
 	if request.form['mess']=="" or request.form['mess']==None:

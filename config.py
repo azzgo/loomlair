@@ -1,5 +1,5 @@
 HOST = "localhost"
-USER = ""
+USER = "root"
 PASSWD = ""
-DB="chatrow"
+DB=""
 PORT = 3306
