@@ -1,0 +1,12 @@
+
+body{
+background-color:#CCEEFF;
+}
+#footer{
+position:absolute;
+bottom:0;
+width:100%;
+}
+#greet{
+color:#999;
+}
