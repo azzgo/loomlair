@@ -132,6 +132,7 @@ def login():
             user = User(nickname, email)
             db.session.add(user)
         db.session.add(OnlineUser(nickname))
+        session['login_time'] = datetime.datetime.now()
         return redirect(url_for('chat'))
     flash(form.errors.values())
     return render_template("login.html",title=u"登陆")
@@ -170,7 +171,7 @@ def chat_add():
 @app.route('/chat/get/',methods=["GET"])
 def chat_get():
     try:
-        last_time = session.get('last_time', datetime.datetime.now())
+        last_time = session.get('last_time',  session['login_time'])
         nickname = current_user.nickname
         msg = Chat.query.filter('pub_time > :last_time').params(last_time=last_time).all()
         if len(msg) != 0:
