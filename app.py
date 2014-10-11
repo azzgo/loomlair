@@ -131,6 +131,7 @@ def login():
         else:
             user = User(nickname, email)
             db.session.add(user)
+            login_user(user)
         db.session.add(OnlineUser(nickname))
         session['login_time'] = datetime.datetime.now()
         return redirect(url_for('chat'))
