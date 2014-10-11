@@ -1,23 +1,31 @@
 <!doctype html>
 <html>
-	<head>
-		{% block head %}
-            <title> {{title}}</title>
-            <script src="http://code.jquery.com/jquery-1.10.2.min.js" ></script>
-			<script src="{{url_for('static', filename='jquery.js') }}"></script>
-            <script src="{{url_for('static', filename='bootstrap.js')}}"></script>
-            <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.css') }}"/>
-            <link rel="stylesheet" href="{{url_for('static', filename='bootstrap-resonsive.css') }}">
-            <meta charset="utf-8" />
-        {% endblock head %}
-        {% block style %}
-		{% endblock style %}
-        {% block script %}
-        {% endblock script %}
-	</head>
-    <body>
-            {% block body %}
-			{% endblock body %}
-			<div id="footer" class="text-center"><p>copyrigt by<a href="#"> loomla</a></p></div>
-	</body>
+<head>
+  {% block head %}
+  <title>{{title}}</title>
+  <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{{url_for('static', filename='bower_components/pure/pure-min.css')}}" >
+	<!--[if lte IE 8]>
+    <link rel="stylesheet" href="{{url_for('static', filename='bower_components/pure/grids-responsive-old-ie-min.css.css')}}">
+	<![endif]-->
+	<!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="{{url_for('static', filename='bower_components/pure/grids-responsive-min.css')}}">
+	<!--<![endif]-->
+	<link rel="stylesheet" href="{{url_for('static', filename='css/all.css')}}">
+	{% endblock head %}
+	{% block style %} {% endblock style %}
+</head>
+
+<body>
+  {% block body %}
+	{% endblock body %}
+  <!-- <div id="footer" class="text-center">
+    <p>copyrigt by<a href="#"> loomla</a>
+    </p>
+  </div> -->
+  <script src="{{url_for('static', filename='bower_components/jquery/dist/jquery.min.js')}}"></script>
+  <script src="{{url_for('static', filename='js/nano.js')}}"></script>
+	{% block script %}{% endblock script %}
+</body>
 </html>

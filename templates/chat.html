@@ -1,72 +1,39 @@
 {% extends "base.html" %}
 {% block style %}
-<link rel="stylesheet" href="{{  url_for('static', filename='sheet.css')  }}" />
-<style>
-.messa{
-background-color:#DDDDDD;
-border-radius:10px;
-}
-#sendbox{
-position:absolute;
-width:100%;
-bottom:10px;
-}
-</style>
+<link rel="stylesheet" href="{{  url_for('static', filename='css/chat.css')  }}" />
 {% endblock style %}
-{% block script %}
-	<script>
-		$(document).ready(function(){
-			$("#sendbox").submit(function(){
-				var mess = $(".text").val();
-				if (mess == ""){
-					$("#flush").text("亲,你还没有写任何信息哦!");
-					return false;
-				}
-				else{
-					return true; //aplay ajax latter
-				}
-			});
-		});		
-	</script>
-{% endblock script %}
+
 {% block body %}
-	<div id="wrap">
-			<p id="flush" style="text-align:center;color:red">{{warning}}</p>
-            <div>
-                    {% if logining %}
-                   
-					 <h1 id="greet" class="text-center">{{username}},欢迎来到chatroom</h1>
-					 <div class="row-fluid">
-					    <button class="span1 offset11 btn btn-link"><p><a href="/loginout">logout</a></p></button>
-					 </div>
-					{% endif %}                    
-            </div>
-        
-                    
-            <div id="chatbox">
-                <div class="row-fluid">
-                    <div id="messagebox" class="span10 offset1">
-                        {% for item in mess[::-1] %}
-				            <div class="messa">
-					            <p class="p1">{{item['mess']}}</p>
-					            <p class="p2 text-right">{{item['user']}} at {{item['email']}} date:{{item['today']}}</p>
-				            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-              
-                <div id="sendbox">
-			        <form id="sendbox" action="/chat/add" method="post">
-			            <div class="row-fluid">
-			                <div class="input-append span10 offset1">			     
-				                <textarea class="span11" name="mess" style="resize: none;"></textarea>
-				                <button class="btn btn-large btn-primary" type="submit">发送</button>
-				            </div>
-			            </div>
-			        </form> 	
-                </div>                           
-            </div>
-                 
-                              
+<div class="pure-g" id="wrap">
+	<div id="menu" class="pure-u-1">
+		<h1>Welcome,<span id="nickname">{{user.nickname}}</span></h1>
+		<a class="pure-button" href="/logout/">登出</a>
 	</div>
+  <div class="pure-u-3-4 pure-g" id="chat">
+		<div id="chatbox" class="pure-u-1">
+			<h1>聊天窗口</h1>
+			<div id="chat-content">
+
+			</div>
+			<div id="sendbox">
+				<div class="pure-form pure-g">
+					<div class="pure-u-1-24"></div>
+					<div class="pure-u-3-4">
+						<input id="message-text" class="pure-input-1 pure-input-rounded" type="text" required>
+					</div>
+					<div class="pure-u-1-24"></div>
+					<button id="message-sending" class="pure-button pure-button-primary pure-u-1-12">发送</button>
+				</div>
+			</div>
+		</div>
+  </div>
+	<div class="pure-u-5-24" id="user-list">
+	<h1>在线用户</h1>
+	<div id="user-list-content"></div>
+	</div>
+</div>
 {% endblock body %}
+
+{% block script %}
+	<script src="{{url_for('static', filename='js/chat.js')}}" charset="utf-8"></script>
+{% endblock script %}

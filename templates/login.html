@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block style %}
+<link rel="stylesheet" href="{{  url_for('static', filename='css/login.css')}}" />
+{% endblock style %}
+{% block body %}
+<div id="wrap">
+  <div id="login_logo">
+    <h1>欢迎来到Loom洽谈室</h1>
+  </div>
+  <div id="login_content">
+      <form class="pure-form" action="/login/" method="post">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <p id="flash-notify" class="notify">{{ message[0][0] }}</p>
+            {% endfor %}
+          {% else %}
+            <p class="notify">请输入Email和昵称</p>
+          {% endif %}
+        {% endwith %}
+        <div class="pure-g">
+          <label class="pure-u-1-4" for="loom-email">Email:</label>
+          <input class="pure-u-3-4 pure-input-rounded" type="email" id="loom-email" name="email" required>
+        </div>
+        <br>
+        <div class="pure-g">
+          <label class="pure-u-1-4" for="loom-nickname">NickName:</label>
+          <input class="pure-u-3-4 pure-input-rounded" type="text" id="loom-nickname" name="nickname" required pattern='[A-z]\w{2,}' title="至少三位">
+        </div>
+        <br>
+        <div class="pure-g">
+          <button class="pure-u-1 pure-u-sm-11-24 pure-button button-secondary" type="submit">登陆</button>
+          <div class="pure-u-sm-1-12"></div>
+          <button class="pure-u-1 pure-u-sm-11-24 pure-button button-warning" type="reset">重置</button>
+        </div>
+      </form>
+  </div>
+</div>
+{% endblock body %}
+
+{% block script %}
+<script>
+    $(document).ready(function(){
+      $("#flash-notify").fadeOut(5000, function(){
+        $('#flash-notify').first().html('请输入Email和昵称').fadeIn(4000)
+      });
+    });
+  </script>
+{% endblock script %}

@@ -1,3 +1,5 @@
 *~
 *.swp
 *.pyc
+dev-config.cfg
+sae-config.cfg

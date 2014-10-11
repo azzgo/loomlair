@@ -1,0 +1,129 @@
+body {
+  background-color: #EFEFEF;
+}
+#wrap {
+  height: 100%;
+}
+
+#menu {
+  margin-bottom: 2%;
+  height: 8%;
+  padding: 1px 20px;
+  position: relative;
+  background:linear-gradient(#555,#222);
+  background:-webkit-linear-gradient(#555,#222);
+  background:-moz-linear-gradient(#555,#222);
+  background:-o-linear-gradient(#555,#222);
+}
+
+#menu h1 {
+  position: absolute;
+  top: 5px;
+  left: 40%;
+  margin: 0;
+  padding: 0;
+  color: #fff;
+}
+
+#menu a {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background-color: transparent;
+  border:solid 1px #fff;
+  color: #fff;
+}
+
+#menu a:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+#chat {
+  height: 90%;
+  padding: 5px;
+}
+
+#chatbox {
+  position: relative;
+  height: 100%;
+  border-style: solid;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#chatbox h1 {
+  margin: 0;
+  padding: 5px;
+  background:linear-gradient(#555,#222);
+  background:-webkit-linear-gradient(#555,#222);
+  background:-moz-linear-gradient(#555,#222);
+  background:-o-linear-gradient(#555,#222);
+  color: #fff;
+  text-align:center;
+}
+
+#chat-content {
+  overflow: auto;
+  height:80%;
+}
+
+#sendbox {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 5px;
+  background: linear-gradient(#555,#222);
+  background: -webkit-linear-gradient(#555,#222);
+  background: -moz-linear-gradient(#555,#222);
+  background: -o-linear-gradient(#555,#222);
+}
+
+#user-list {
+  margin: 5px;
+  position: relative;
+  height: 90%;
+  padding: 1px;
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  border: solid 1px #fff;
+}
+
+#user-list h1 {
+  margin: 0;
+  padding: 5px;
+  background:linear-gradient(#555,#222);
+  background:-webkit-linear-gradient(#555,#222);
+  background:-moz-linear-gradient(#555,#222);
+  background:-o-linear-gradient(#555,#222);
+  color: #fff;
+  text-align:center;
+}
+
+.other-msg {
+  text-align: right;
+  padding: 20px;
+}
+
+.other-msg .other-content {
+  color: #f00;
+}
+
+.mine-msg {
+  padding: 20px;
+  text-align:left;
+}
+
+.mine-msg .mine-content {
+  color: #00f;
+}
+
+.puber {
+  color: #0f0;
+}
+
+.user-item {
+  color: #0f0;
+  padding: 5px;
+}
