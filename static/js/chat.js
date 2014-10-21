@@ -13,7 +13,7 @@ var flash_msg = function(msg){
     if(msg[i].nickname===$("#nickname").text()){
       $('#chat-content').append(nano("<div class='other-msg'><p class='other-content'>{content}</p><p class='puber'>{pub_time} by {nickname}</p></div>", msg[i]));
     }else{
-      $('#chat-content').append("<div class='mine-msg'><p class='mine-content'>{content}</p><p class='puber'>{pub_time} by {nickname}</p></div>", msg[i]);
+      $('#chat-content').append(nano("<div class='mine-msg'><p class='mine-content'>{content}</p><p class='puber'>{pub_time} by {nickname}</p></div>", msg[i]));
     }
   }
 };
@@ -29,8 +29,9 @@ var userlist_find = function(){
 
 // # 添加用户到box
 var flash_user = function(user_list){
+  $('#user-list-content').html('');
   for (var i=0; i< user_list.length;i++){
-    $('#user-list-content').html(nano("<p class='user-item'>{nickname}</p>", user_list[i]));
+    $('#user-list-content').append(nano("<p class='user-item'>{nickname}</p>", user_list[i]));
   }
 };
 

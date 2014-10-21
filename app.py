@@ -19,10 +19,14 @@ import datetime
 app = Flask(__name__)
 
 # jsonify设置
+
+
 class CustomEncoder(JSONEncoder):
+
     """
     定制jsonify 额外类型的支持
     """
+
     def default(self, obj):
         if isinstance(obj, (datetime.datetime, datetime.date)):
             return obj.isoformat()
@@ -39,26 +43,29 @@ app.config.from_envvar('ENV')
 db = SQLAlchemy(app)
 
 # 用户数据类
+
+
 class User(db.Model):
-  id = db.Column(db.Integer, primary_key=True)
-  nickname = db.Column(db.String(80), unique=True)
-  email = db.Column(db.String(120), unique=True)
+    id = db.Column(db.Integer, primary_key=True)
+    nickname = db.Column(db.String(80), unique=True)
+    email = db.Column(db.String(120), unique=True)
 
-  def __init__(self, nickname, email):
-    self.nickname = nickname
-    self.email = email
+    def __init__(self, nickname, email):
+        self.nickname = nickname
+        self.email = email
 
-  def is_authenticated(self):
+    def is_authenticated(self):
         return True
 
-  def is_active(self):
-      return True
+    def is_active(self):
+        return True
 
-  def is_anonymous(self):
-      return False
+    def is_anonymous(self):
+        return False
 
-  def get_id(self):
-      return unicode(self.id)
+    def get_id(self):
+        if self.id:
+            return unicode(self.id)
 
 # 发送的消息数据类
 class Chat(db.Model):
@@ -82,7 +89,7 @@ class Chat(db.Model):
 # 记录在线人数数据类
 class OnlineUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nickname = db.Column(db.String(80))
+    nickname = db.Column(db.String(80), unique=True)
     dead_time = db.Column(db.DateTime)
 
     def __init__(self, nickname):
@@ -107,8 +114,10 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(userid):
-    return User.query.get(int(userid))
-#url 页面处理
+    if userid :
+        return User.query.get(int(userid))
+
+# url 页面处理
 @app.route("/")
 def index():
   if current_user.is_anonymous():
@@ -134,6 +143,7 @@ def login():
             login_user(user)
         db.session.add(OnlineUser(nickname))
         session['login_time'] = datetime.datetime.now()
+        db.session.commit()
         return redirect(url_for('chat'))
     flash(form.errors.values())
     return render_template("login.html",title=u"登陆")
@@ -148,6 +158,7 @@ def login_page():
 def loginout():
     user = OnlineUser.query.filter_by(nickname=current_user.nickname).first()
     db.session.delete(user)
+    db.session.commit()
     logout_user()
     return redirect(url_for('index'))
 
@@ -166,6 +177,7 @@ def chat_add():
         abort(403)
     chat = Chat(nickname, content)
     db.session.add(chat)
+    db.session.commit()
     return '',201
 
 # 获取数据
@@ -188,21 +200,18 @@ def chat_user_get():
     map(db.session.delete, userlist)
     db.session.commit()
     userlist = OnlineUser.query.all()
-    return jsonify(userlist=userlist)
+    return jsonify(userlist=add_date_time(userlist))
 
-# 请求代码
-@app.before_request
-def before_request():
-    if current_user.is_active():
-        user = OnlineUser.query.filter_by(nickname=current_user.nickname).first()
-        user.dead_time = datetime.datetime.now() + datetime.timedelta(minutes=30)
-    g.db = db
+@app.route('/debug/')
+def debug_app():
+    return jsonify(status=0, user = str(current_user))
 
-@app.teardown_request
-def teardown_request(exception):
-    db = getattr(g, 'db', None)
-    if db is not None:
-        db.session.commit()
+# help工具
+def add_date_time(list):
+    for item in list:
+        item.dead_time +=datetime.timedelta(minutes=30)
+    db.session.commit()
+    return list
 
 @app.errorhandler(404)
 def not_findpage(error):
